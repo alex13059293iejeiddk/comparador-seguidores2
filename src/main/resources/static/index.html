@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3286530358113572"
+     crossorigin="anonymous"></script>
+  <title>Comparador de Seguidores</title>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="estilos.css">
+</head>
+<body>
+  <div class="contenedor">
+    <h1>Análisis de Seguidores</h1>
+
+    <button id="toggle-instrucciones">📗 <strong>Mostrar Instrucciones</strong></button>
+
+    <div class="instrucciones oculto" id="instrucciones">
+      <h2>¿Cómo obtener tus archivos desde Instagram?</h2>
+      <p>Sigue estos pasos desde la aplicación de Instagram para descargar tus seguidores y seguidos:</p>
+      <ol>
+        <li>Ve a <strong>Configuración</strong> en tu perfil.</li>
+        <li>Selecciona <strong>Centro de cuentas</strong>.</li>
+        <li>Entra a <strong>Tu información y permisos</strong>.</li>
+        <li>Presiona <strong>Descargar tu información</strong>.</li>
+        <li>Selecciona <strong>Descargar o transferir información</strong>.</li>
+        <li>Elige <strong>Parte de tu información</strong>.</li>
+        <li>Marca <strong>Seguidores y seguidos</strong>.</li>
+        <li>Selecciona <strong>Descargar en este dispositivo</strong>.</li>
+        <li>En <strong>Intervalo de fechas</strong>, elige <em>Desde el principio</em>.</li>
+        <li>En <strong>Formato</strong>, selecciona <em>JSON</em>.</li>
+        <li>En <strong>Calidad del contenido</strong>, elige <em>Baja</em>.</li>
+        <li>Toca <strong>Crear archivos</strong>.</li>
+      </ol>
+      <p>Después de realizar la solicitud, el archivo aparecerá como <strong>En curso</strong> en la pestaña <em>Actividad actual</em>.</p>
+      <p>Cuando esté listo, recibirás una notificación en Instagram y un correo electrónico con el enlace de descarga.</p>
+      <p>Dentro del archivo descargado (ZIP), encontrarás la carpeta <code>followers_and_following</code> con los archivos <code>followers_1.json</code> y <code>following.json</code>.</p>
+      <p>Sube esos archivos en el formulario de esta página para analizarlos.</p>
+    </div>
+
+    <form id="formulario">
+      <div class="campo">
+        <label for="seguidos">Archivo de seguidos (following.json):</label>
+        <input type="file" name="seguidos" id="seguidos" required>
+      </div>
+
+      <div class="campo">
+        <label for="seguidores">Archivo de seguidores (followers_1.json):</label>
+        <input type="file" name="seguidores" id="seguidores" required>
+      </div>
+
+      <div class="campo">
+        <label for="tipo">¿Qué deseas ver?</label>
+        <select name="tipo" id="tipo" required>
+          <option value="seguidos">Seguidos</option>
+          <option value="seguidores">Seguidores</option>
+          <option value="no_seguidores">Sigues pero no te siguen</option>
+          <option value="no_seguidos">Te siguen pero no los sigues</option>
+        </select>
+      </div>
+
+      <button type="submit"><strong>Descargar resultado</strong></button>
+    </form>
+
+  </div>
+
+  <script>
+  document.getElementById("formulario").addEventListener("submit", async function(e) {
+    e.preventDefault();
+
+    const formData = new FormData(e.target);
+    const res = await fetch("/comparar", {
+      method: "POST",
+      body: formData
+    });
+
+    if (!res.ok) {
+      alert("Hubo un error al procesar los archivos.");
+      return;
+    }
+
+    const blob = await res.blob();
+    const url = window.URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+
+    const disposition = res.headers.get("Content-Disposition");
+    const match = disposition && disposition.match(/filename="(.+)"/);
+    a.download = match ? match[1] : "resultado.txt";
+
+    document.body.appendChild(a);
+    a.click();
+    a.remove();
+    window.URL.revokeObjectURL(url);
+  });
+
+  // Mostrar/Ocultar instrucciones
+  const boton = document.getElementById("toggle-instrucciones");
+  const caja = document.getElementById("instrucciones");
+
+  boton.addEventListener("click", () => {
+    caja.classList.toggle("oculto");
+    boton.innerHTML = caja.classList.contains("oculto")
+      ? "📗 <strong>Mostrar instrucciones</strong>"
+      : "📕 <strong>Ocultar instrucciones</strong>";
+
+  });
+</script>
+
+</body>
+</html>

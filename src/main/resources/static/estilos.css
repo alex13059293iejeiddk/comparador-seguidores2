@@ -1,0 +1,143 @@
+/* Estilos generales */
+body {
+  font-family: 'Roboto', sans-serif;
+  background-color: #f4f6f8;
+  margin: 0;
+  padding: 20px; /* Añadido padding general */
+  display: flex;
+  justify-content: center;
+  align-items: flex-start; /* Cambiado a flex-start para mejor control */
+  min-height: 100vh;
+  box-sizing: border-box;
+}
+
+/* Contenedor principal */
+.contenedor {
+  width: 100%;
+  max-width: 600px;
+  background-color: #fff;
+  padding: 30px;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  margin: 28px 0; /* Margen superior e inferior aumentado */
+}
+
+/* Título */
+h1 {
+  text-align: center;
+  color: #333;
+  margin-bottom: 20px;
+  margin-top: 0;
+}
+
+/* Botón de instrucciones */
+#toggle-instrucciones {
+  background-color: #2196F3;
+  color: white;
+  border: none;
+  padding: 12px 20px;
+  border-radius: 8px;
+  font-size: 16px;
+  cursor: pointer;
+  margin: 15px 0;
+  width: 100%;
+  transition: background-color 0.3s;
+}
+
+#toggle-instrucciones:hover {
+  background-color: #1e88e5;
+}
+
+/* Caja de instrucciones */
+.instrucciones {
+  background-color: #f8f9fa;
+  padding: 20px;
+  border-radius: 8px;
+  margin-bottom: 25px;
+  border-left: 4px solid #2196F3;
+}
+
+.instrucciones h2 {
+  color: #2c3e50;
+  margin-top: 0;
+  font-size: 1.3em;
+}
+
+.instrucciones ol {
+  padding-left: 20px;
+}
+
+.instrucciones li {
+  margin-bottom: 8px;
+}
+
+.instrucciones p {
+  margin: 15px 0;
+  line-height: 1.5;
+}
+
+.instrucciones code {
+  background-color: #e9ecef;
+  padding: 2px 4px;
+  border-radius: 3px;
+  font-family: monospace;
+}
+
+.oculto {
+  display: none;
+}
+
+/* Formulario */
+#formulario {
+  margin-top: 20px;
+}
+
+.campo {
+  margin-bottom: 20px;
+}
+
+.campo label {
+  display: block;
+  margin-bottom: 8px;
+  font-weight: bold;
+  color: #333;
+}
+
+.campo input[type="file"],
+.campo select {
+  width: 100%;
+  padding: 12px;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  font-size: 16px;
+  box-sizing: border-box;
+}
+
+button[type="submit"] {
+  background-color: #4CAF50;
+  color: white;
+  border: none;
+  padding: 14px;
+  font-size: 16px;
+  border-radius: 8px;
+  cursor: pointer;
+  width: 100%;
+  font-weight: bold;
+  transition: background-color 0.3s;
+}
+
+button[type="submit"]:hover {
+  background-color: #45a049;
+}
+
+/* Responsive */
+@media (max-width: 640px) {
+  body {
+    padding: 10px;
+  }
+  
+  .contenedor {
+    padding: 20px;
+    margin: 20px 0;
+  }
+}
