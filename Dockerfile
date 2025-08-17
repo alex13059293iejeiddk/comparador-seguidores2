@@ -1,12 +1,27 @@
-# Usa tu imagen base Java
-FROM eclipse-temurin:23-jdk-jammy
+# Etapa 1: Build
+FROM eclipse-temurin:17-jdk-jammy AS builder
 
-# Copia el jar al contenedor
-COPY target/comparador-seguidores-0.0.1-SNAPSHOT.jar app.jar
+WORKDIR /app
 
-# Expone el puerto dinámico que Railway asigna
+COPY mvnw .
+COPY .mvn .mvn
+COPY pom.xml .
+COPY src ./src
+
+RUN chmod +x mvnw
+RUN ./mvnw clean package -DskipTests
+
+# Etapa 2: Runtime
+FROM eclipse-temurin:17-jdk-jammy
+
+WORKDIR /app
+
+# Copiar el JAR generado desde la etapa builder
+COPY --from=builder /app/target/comparador-seguidores-0.0.1-SNAPSHOT.jar app.jar
+
+# Exponer el puerto dinámico de Railway
 ENV PORT 8080
 EXPOSE $PORT
 
-# Arranca la app usando la variable PORT
-ENTRYPOINT ["java","-Dserver.port=$PORT","-jar","/app.jar"]
+# Arrancar usando la variable PORT
+ENTRYPOINT ["java", "-Dserver.port=$PORT", "-jar", "app.jar"]
