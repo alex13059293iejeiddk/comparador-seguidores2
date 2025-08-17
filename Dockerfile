@@ -22,6 +22,5 @@ COPY --from=builder /app/target/comparador-seguidores-0.0.1-SNAPSHOT.jar app.jar
 # Exponer el puerto dinámico de Railway
 ENV PORT 8080
 EXPOSE $PORT
+ENTRYPOINT ["sh","-c","java -Dserver.port=$PORT -jar app.jar"]
 
-# Arrancar usando la variable PORT
-ENTRYPOINT ["java", "-Dserver.port=$PORT", "-jar", "app.jar"]
